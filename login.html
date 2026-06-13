@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎界面</title>
+    <link rel="stylesheet" href="css/login.css">
+
+</head>
+
+<body>
+
+    <!-- 头部内容 -->
+    <div class="topbar" id="topbar">请用今天的努力让明天没有遗憾</div>
+    <!-- 背景盒子 -->
+    <div class="bg">
+
+        <!-- 登录界面 -->
+        <div class="log" id="login">
+            <div id="zhanghao">
+                <label for="username">账号登录：</label>
+                <br>
+                <input type="text" id="username" placeholder="请输入账号">
+                <p>默认账号:admin</p>
+            </div>
+            <div id="password">
+                <label for="password">登录密码：</label>
+                <br>
+                <input type="password" id="pasword" placeholder="请输入密码">
+                <p>默认密码:123456</p>
+            </div>
+            <button type="submit" id="btn">登录</button>
+
+        </div>
+
+
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer">
+        <!-- con盒子裁剪波浪盒子 -->
+
+        <div class="footer-con">
+            <div class="footer-con-left">
+                <div class="item">
+                    <a href="#">
+                        <button>
+                            <img src="./img/courses.svg" alt="">
+                            <p>Courses</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./img/tutorials.svg" alt="">
+                            <p>Tutorials</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./img/livestreams.svg" alt="">
+                            <p>Livestreams</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./img/pricing.svg" alt="">
+                            <p>Pricing</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./img/pricing.svg" alt="">
+                            <p>Pricing</p>
+                        </button>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#">
+                        <button>
+                            <img src="./img/courses.svg" alt="">
+                            <p>Courses</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./img/tutorials.svg" alt="">
+                            <p>Tutorials</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./img/livestreams.svg" alt="">
+                            <p>Livestreams</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./img/pricing.svg" alt="">
+                            <p>Pricing</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./img/pricing.svg" alt="">
+                            <p>Pricing</p>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-con-right">
+
+                <p> Site made with React, Gatsby,
+                    Netlify and Contentful. Learn how.</p>
+                <p> Design+Code © 2025</p>
+
+                <p> Terms of Service - Privacy Policy
+                </p>
+                <p>Need help? Contact Us </p>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script>
+    const body = document.body;
+    const glass = document.querySelector('.glass');
+
+    document.querySelector('#btn').onclick = function () {
+        const username = document.querySelector('#username').value;
+        const password = document.querySelector('#pasword').value;
+        if (username === '' || password === '') {
+            return alert('输入框不能为空');
+        }
+        const params = `username=${username}&password=${password}`;
+        console.log("前端提交的数据：", params);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/data');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send(params);
+        xhr.onload = function () {
+            // 先判断请求是否成功
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log("后端返回内容：", xhr.responseText);
+                // 这里如果后端返回的不是JSON，就不要用JSON.parse
+            } else {
+                console.error("请求失败，状态码：", xhr.status);
+                console.error("错误响应内容：", xhr.responseText);
+            }
+        }; xhr.onerror = function () {
+            console.error("网络请求错误");
+        };
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>
