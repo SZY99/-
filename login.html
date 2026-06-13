@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="topbar">请用今天的努力让明天没有遗憾</div>
+    <div class="bg">
+        <div class="log">
+            <div>
+                <label for="username">账号登录：</label><br>
+                <p>默认账号:admin</p>
+                <input type="text" id="username" value="admin">
+            </div>
+            <div>
+                <label for="password">登录密码：</label><br>
+                <p>默认密码:123456</p>
+                <input type="password" id="password" value="123456">
+            </div>
+            <button type="button" onclick="login()">登录</button>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <div class="footer">
+        <!-- con盒子裁剪波浪盒子 -->
+
+        <div class="footer-con">
+            <div class="footer-con-left">
+                <div class="item">
+                    <a href="#">
+                        <button>
+                            <img src="./images/courses.svg" alt="">
+                            <p>Courses</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./images/tutorials.svg" alt="">
+                            <p>Tutorials</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./images/livestreams.svg" alt="">
+                            <p>Livestreams</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./images/pricing.svg" alt="">
+                            <p>Pricing</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./images/pricing.svg" alt="">
+                            <p>Pricing</p>
+                        </button>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#">
+                        <button>
+                            <img src="./images/courses.svg" alt="">
+                            <p>Courses</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./images/tutorials.svg" alt="">
+                            <p>Tutorials</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./images/livestreams.svg" alt="">
+                            <p>Livestreams</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./images/pricing.svg" alt="">
+                            <p>Pricing</p>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button>
+                            <img src="./images/pricing.svg" alt="">
+                            <p>Pricing</p>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-con-right">
+
+                <p> Site made with React, Gatsby,
+                    Netlify and Contentful. Learn how.</p>
+                <p> Design+Code © 2025</p>
+
+                <p> Terms of Service - Privacy Policy
+                </p>
+                <p>Need help? Contact Us </p>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (username === '') {
+                alert('账号不能为空！');
+                return;
+            }
+            if (password === '') {
+                alert('密码不能为空！');
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8000/data');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`username=${username}&password=${password}`);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+
+                    if (xhr.status >= 200 && xhr.status < 300) {
+
+                        console.log('请求成功：', xhr.response);
+
+
+                        const res = JSON.parse(xhr.response);
+                        if (res.code === 200) {
+                            alert('登录成功！');
+                            location.href = './index.html'; // 正确的相对路径
+                        } else {
+                            alert('账号或密码错误！');
+                        }
+                    } else {
+                        console.log('请求失败：', xhr.status);
+                        alert('请求失败，请检查服务是否启动！');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
