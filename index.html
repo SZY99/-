@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 移动端适配核心标签 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>秋笙_博客</title>
     <link rel="stylesheet" href="css/style.css">
 
@@ -168,44 +169,24 @@
                 </figure>
 
             </div>
-            <div class="item">
-                <figure>
-                    <img src="images/pic4.png" alt="">
-                    <h2>Butifl Swirtch Course Title</h2>
-                    <p>TSHIisi his hisih</p>
-                </figure>
-
-            </div>
-            <div class="item">
-                <figure>
-                    <img src="images/pic.png" alt="">
-                    <h2>Butifl Swirtch Course Title</h2>
-                    <p>TSHIisi his hisih</p>
-                </figure>
-
-            </div>
-            <div class="item">
-                <figure>
-                    <img src="images/pic2.png" alt="">
-                    <h2>Butifl Swirtch Course Title</h2>
-                    <p>TSHIisi his hisih</p>
-                </figure>
-
-            </div>
-            <div class="item">
-                <figure>
-                    <img src="images/pic3.png" alt="">
-                    <h2>Butifl Swirtch Course Title</h2>
-                    <p>TSHIisi his hisih</p>
-                </figure>
-
-            </div>
-
         </div>
+        <div class="container">
+            <h2>在线留言</h2>
+            <div class="input-box">
+                <textarea id="msgContent" placeholder="请输入留言内容..."></textarea>
+            </div>
+            <div class="btn-group">
+                <button id="submitBtn">提交留言</button>
+                <button id="clearAll">清空全部留言</button>
+            </div>
+
+            <div class="msg-list" id="msgList"></div>
+        </div>
+
+
         <!-- 底部 -->
         <div class="footer">
             <!-- con盒子裁剪波浪盒子 -->
-
             <div class="footer-con">
                 <div class="footer-con-left">
                     <div class="item">
@@ -333,6 +314,69 @@
             top: 0,
             behavior: 'smooth'
         });
+    });
+
+
+    const msgContent = document.getElementById('msgContent');
+    const submitBtn = document.getElementById('submitBtn');
+    const msgList = document.getElementById('msgList');
+    const clearAll = document.getElementById('clearAll');
+
+    // 读取本地留言
+    let msgArr = JSON.parse(localStorage.getItem('messageList')) || [];
+
+    // 渲染留言列表
+    function renderMsg() {
+        msgList.innerHTML = '';
+        msgArr.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'msg-item';
+            div.innerHTML = `
+                    <div class="msg-content">
+                        <p>${item.content}</p>
+                        <div class="time">${item.time}</div>
+                    </div>
+                    <button class="del-btn" data-index="${index}">删除</button>
+                `;
+            msgList.appendChild(div);
+        });
+    }
+
+    // 初始渲染
+    renderMsg();
+
+    // 提交留言
+    submitBtn.addEventListener('click', function () {
+        const content = msgContent.value.trim();
+        if (!content) {
+            alert('请输入留言内容！');
+            return;
+        }
+        const time = new Date().toLocaleString();
+        const newMsg = { content, time };
+        msgArr.unshift(newMsg);
+        localStorage.setItem('messageList', JSON.stringify(msgArr));
+        renderMsg();
+        msgContent.value = '';
+    });
+
+    // 单条删除（事件委托）
+    msgList.addEventListener('click', function (e) {
+        if (e.target.classList.contains('del-btn')) {
+            const idx = e.target.dataset.index;
+            msgArr.splice(idx, 1); // 删除对应下标数据
+            localStorage.setItem('messageList', JSON.stringify(msgArr));
+            renderMsg();
+        }
+    });
+
+    // 清空全部留言
+    clearAll.addEventListener('click', function () {
+        if (confirm('确定要删除所有留言吗？此操作不可恢复！')) {
+            msgArr = [];
+            localStorage.removeItem('messageList');
+            renderMsg();
+        }
     });
 </script>
 
